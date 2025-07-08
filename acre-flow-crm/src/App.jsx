@@ -18,7 +18,7 @@ import Developer from "./pages/Developer";
 import DeveloperLogin from "./pages/DeveloperLogin";
 import DeveloperDashboard from "./pages/DeveloperDashboard";
 import ResetPassword from "./pages/ResetPassword";
-
+import TeamEmployees from "./pages/TeamEmployees";
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -26,19 +26,19 @@ const App = () => {
   const [userRole, setUserRole] = useState("employee");
   const [isLoading, setIsLoading] = useState(true);
 
-   const [isDeveloperLoggedIn, setIsDeveloperLoggedIn] = useState(false);
-
+  const [isDeveloperLoggedIn, setIsDeveloperLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkAuthStatus = () => {
       const loggedIn = localStorage.getItem("isLoggedIn") === "true";
       const role = localStorage.getItem("userRole") || "employee";
 
-      const developerLoggedIn = localStorage.getItem("isDeveloperLoggedIn") === "true"; 
+      const developerLoggedIn =
+        localStorage.getItem("isDeveloperLoggedIn") === "true";
 
       setIsLoggedIn(loggedIn);
       setUserRole(role);
-       setIsDeveloperLoggedIn(developerLoggedIn);
+      setIsDeveloperLoggedIn(developerLoggedIn);
 
       setIsLoading(false);
     };
@@ -136,7 +136,7 @@ const App = () => {
               }
               // lsahbs
             />
-               <Route
+            <Route
               path="/users"
               element={
                 isLoggedIn && userRole === "super-admin" ? (
@@ -146,7 +146,7 @@ const App = () => {
                 )
               }
             />
- <Route
+            <Route
               path="/settings"
               element={
                 isLoggedIn && userRole === "super-admin" ? (
@@ -156,17 +156,18 @@ const App = () => {
                 )
               }
             />
-             <Route
+            <Route
               path="/developer"
               element={
-                (isLoggedIn && userRole === "super-admin") || isDeveloperLoggedIn ? (
+                (isLoggedIn && userRole === "super-admin") ||
+                isDeveloperLoggedIn ? (
                   <Developer userRole={userRole} />
                 ) : (
                   <Navigate to="/" replace />
                 )
               }
             />
-                <Route
+            <Route
               path="/developer-dashboard"
               element={
                 isDeveloperLoggedIn ? (
@@ -189,19 +190,16 @@ const App = () => {
                 )
               }
             />
-            <Route
+               <Route
               path="/employees"
               element={
-                isLoggedIn && userRole === "team-leader" ? (
-                  <div className="p-6">
-                    <h1 className="text-2xl font-bold">My Employees</h1>
-                    <p>Employee management interface coming soon...</p>
-                  </div>
+                (isLoggedIn && userRole === "team-leader") || isDeveloperLoggedIn ? (
+                  <TeamEmployees userRole={userRole} />
                 ) : (
                   <Navigate to="/" replace />
                 )
               }
-            />
+              />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
