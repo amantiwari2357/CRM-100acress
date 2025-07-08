@@ -53,7 +53,7 @@ const Sidebar = ({ userRole, isCollapsed, onToggle }) => {
     employee: [
       { path: '/', icon: Home, label: 'Dashboard' },
       { path: '/leads', icon: Building2, label: 'My Leads' },
-      { path: '/tickets', icon: Ticket, label: 'My Tickets' }
+      // { path: '/tickets', icon: Ticket, label: 'My Tickets' }
     ]
   };
 
