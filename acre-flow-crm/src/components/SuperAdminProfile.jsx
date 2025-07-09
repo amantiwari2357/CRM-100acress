@@ -35,7 +35,7 @@ const SuperAdminProfile = () => {
   return (
     <>
       <div className="superadmin-container">
-        <div className="superadmin-header">
+        {/* <div className="superadmin-header">
           <div className="superadmin-header-left">
             <div className="header-icon"><Building2 className="icon-white" /></div>
             <p className="panel-title">Super Admin Control Panel</p>
@@ -78,7 +78,7 @@ const SuperAdminProfile = () => {
               </PopoverContent>
             </Popover>
           </div>
-        </div>
+        </div> */}
 
         <div className="stats-grid">
           {statsData.map((stat, index) => (

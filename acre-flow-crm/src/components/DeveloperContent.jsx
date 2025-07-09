@@ -33,7 +33,9 @@ import {
   BarChart3,
   RefreshCw,
   Download,
-  Upload
+  Upload,
+  UserPlus,
+  Info
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
@@ -62,6 +64,13 @@ const DeveloperContent = ({ userRole }) => {
     errorRate: '0.02%'
   });
 
+  const [newEmployee, setNewEmployee] = useState({
+    name: '',
+    email: '',
+    role: '',
+    password: ''
+  });
+
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -72,6 +81,7 @@ const DeveloperContent = ({ userRole }) => {
     { id: 'api', label: 'API Management', icon: Server },
     { id: 'security', label: 'Security', icon: Shield },
     { id: 'logs', label: 'System Logs', icon: FileText },
+    { id: 'create-employee', label: 'Create Employee', icon: UserPlus },
     { id: 'performance', label: 'Performance', icon: Activity },
     { id: 'deployment', label: 'Deployment', icon: GitBranch },
     { id: 'tools', label: 'Dev Tools', icon: Wrench }
@@ -97,6 +107,28 @@ const DeveloperContent = ({ userRole }) => {
       description: `Accessing ${section} as ${role}`,
     });
   };
+
+  const handleEmployeeInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewEmployee(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleCreateEmployee = (e) => {
+    e.preventDefault();
+    // Here you would typically send this data to your backend API
+    console.log('Creating employee:', newEmployee);
+    toast({
+      title: "Employee Creation",
+      description: `Employee ${newEmployee.name} created successfully!`,
+    });
+    // Clear form after submission
+    setNewEmployee({ name: '', email: '', role: '', password: '' });
+  };
+
+  
 
   const renderAccessControl = () => (
     <div className="content-section">
@@ -1185,6 +1217,107 @@ const renderLogs = () => (
     </div>
   );
 
+  const renderCreateEmployee = () => (
+    <div className="create-employee-section">
+      <div className="create-employee-card">
+        <div className="card-header">
+          <h3 className="card-title">
+            <UserPlus className="card-icon" />
+            Create New Employee
+          </h3>
+          <p className="card-subtitle">Fill in the details to create a new employee account</p>
+        </div>
+        
+        <form onSubmit={handleCreateEmployee} className="employee-form">
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Full Name</label>
+              <input
+                type="text"
+                name="name"
+                value={newEmployee.name}
+                onChange={handleEmployeeInputChange}
+                placeholder="John Doe"
+                className="form-input"
+                required
+              />
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label">Email Address</label>
+              <input
+                type="email"
+                name="email"
+                value={newEmployee.email}
+                onChange={handleEmployeeInputChange}
+                placeholder="john.doe@example.com"
+                className="form-input"
+                required
+              />
+            </div>
+          </div>
+          
+          <div className="form-row">
+            <div className="form-group">
+              <label className="form-label">Role</label>
+              <select
+                name="role"
+                value={newEmployee.role}
+                onChange={handleEmployeeInputChange}
+                className="form-select"
+                required
+              >
+                <option value="">Select Role</option>
+                <option value="employee">Employee</option>
+                <option value="team-leader">Team Leader</option>
+                <option value="head-admin">Head Admin</option>
+                <option value="super-admin">Super Admin</option>
+              </select>
+            </div>
+            
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={newEmployee.password}
+                onChange={handleEmployeeInputChange}
+                placeholder="Create a password"
+                className="form-input"
+                required
+              />
+            </div>
+          </div>
+          
+          <div className="form-actions">
+            <button type="submit" className="create-button primary">
+              <UserPlus className="button-icon" />
+              Create Employee
+            </button>
+            <button type="button" onClick={() => setNewEmployee({ name: '', email: '', role: '', password: '' })} className="create-button">
+              Clear Form
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <div className="employee-notes">
+        <div className="note-card">
+          <h4 className="note-title">
+            <Info className="note-icon" />
+            Employee Creation Guidelines
+          </h4>
+          <ul className="note-list">
+            <li>Ensure email is unique and valid</li>
+            <li>Passwords must be at least 8 characters</li>
+            <li>Team Leaders can manage employees</li>
+            <li>Admins have system access</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
     switch (activeTab) {
       case 'overview':
@@ -1199,6 +1332,8 @@ const renderLogs = () => (
         return renderSecurity();
       case 'logs':
         return renderLogs();
+      case 'create-employee':
+        return renderCreateEmployee();
       case 'performance':
         return renderPerformance();
       case 'deployment':
@@ -2994,6 +3129,284 @@ const renderLogs = () => (
             flex-direction: column;
           }
         }
+/* General Styling */
+:root {
+  --primary-color: #007bff; /* Blue */
+  --secondary-color: #6c757d; /* Gray */
+  --success-color: #28a745; /* Green */
+  --danger-color: #dc3545; /* Red */
+  --info-color: #17a2b8; /* Cyan */
+  --warning-color: #ffc107; /* Yellow */
+  --light-bg: #f8f9fa; /* Light Gray Background */
+  --dark-text: #343a40; /* Dark Gray Text */
+  --border-color: #dee2e6; /* Light Gray Border */
+  --card-bg: #ffffff; /* White Card Background */
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--light-bg);
+  color: var(--dark-text);
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Section Container */
+.create-employee-section {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  gap: 30px; /* Space between cards */
+  max-width: 1200px;
+  margin: 40px auto;
+  align-items: flex-start; /* Align items to the top */
+}
+
+/* Card Styling */
+.create-employee-card,
+.note-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px var(--shadow-light);
+  padding: 30px;
+  flex: 1; /* Allows cards to grow and shrink */
+  min-width: 320px; /* Minimum width before wrapping */
+}
+
+.create-employee-card {
+  border-left: 5px solid var(--primary-color);
+}
+
+.note-card {
+  border-left: 5px solid var(--info-color);
+}
+
+/* Card Header */
+.card-header {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.8em;
+  color: var(--primary-color);
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.card-icon {
+  margin-right: 12px;
+  font-size: 1.5em;
+  color: var(--primary-color);
+}
+
+.card-subtitle {
+  font-size: 1.05em;
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+/* Form Layout */
+.employee-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 0; /* Remove default margin as grid handles spacing */
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--dark-text);
+  font-size: 0.95em;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1em;
+  color: var(--dark-text);
+  background-color: var(--light-bg);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+.form-input::placeholder,
+.form-select option[value=""] {
+  color: #a0a0a0;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  outline: none;
+  background-color: var(--card-bg);
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap; /* Allow buttons to wrap */
+}
+
+.button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  text-decoration: none; /* For links styled as buttons */
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+.button-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+}
+
+.button-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+  box-shadow: 0 4px 10px rgba(108, 117, 125, 0.2);
+}
+
+.button-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3);
+}
+
+.button-icon {
+  margin-right: 8px;
+  font-size: 1.1em;
+}
+
+/* Employee Notes / Guidelines */
+.employee-notes {
+  flex: 0.7; /* Allows it to take less space than the form */
+  min-width: 280px;
+}
+
+.note-card {
+  background-color: var(--light-bg); /* Slightly different background for distinction */
+  box-shadow: inset 0 0 0 2px var(--info-color), 0 4px 15px var(--shadow-light); /* Inner shadow for emphasis */
+  padding: 25px;
+}
+
+.note-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.4em;
+  color: var(--info-color);
+  margin: 0 0 15px 0;
+  font-weight: 600;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 10px;
+}
+
+.note-icon {
+  margin-right: 10px;
+  font-size: 1.2em;
+  color: var(--info-color);
+}
+
+.note-list {
+  list-style: none; /* Remove default bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+.note-list li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: var(--dark-text);
+  position: relative;
+  padding-left: 25px; /* Space for custom bullet */
+}
+
+.note-list li::before {
+  content: '•'; /* Custom bullet point */
+  color: var(--info-color);
+  font-size: 1.2em;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.note-list li strong {
+  color: var(--primary-color);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .create-employee-section {
+    flex-direction: column; /* Stack cards vertically */
+    gap: 40px;
+    margin: 20px auto;
+  }
+
+  .create-employee-card,
+  .note-card {
+    min-width: unset; /* Remove min-width when stacked */
+    width: 100%; /* Take full width */
+  }
+}
+
+@media (max-width: 576px) {
+  .card-title {
+    font-size: 1.5em;
+  }
+
+  .card-subtitle {
+    font-size: 0.95em;
+  }
+
+  .form-actions {
+    flex-direction: column; /* Stack buttons vertically */
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+
       `}</style>
     </>
   );

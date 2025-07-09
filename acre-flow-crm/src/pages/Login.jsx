@@ -153,13 +153,8 @@ const Login = () => {
               </label>
 
               <button type="button" className="forgot-password" onClick={() => setShowForgotModal(true)}>Forgot Password?</button>
-
-              <a href="#" className="forgot-password">
-                Forgot password?
-              </a>
-
-            </div>
-
+</div>
+    
             {/* Submit Button */}
             <button className="login-btn" disabled={isLoading}>
               {isLoading ? "Signing In..." : "SIGN IN"}
