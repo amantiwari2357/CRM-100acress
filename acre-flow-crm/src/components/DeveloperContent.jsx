@@ -1270,8 +1270,31 @@ const renderLogs = () => (
                 <option value="">Select Role</option>
                 <option value="employee">Employee</option>
                 <option value="team-leader">Team Leader</option>
-                <option value="head-admin">Head Admin</option>
-                <option value="super-admin">Super Admin</option>
+                <option value="head-admin">Admin</option>
+                <option value="super-admin">BOSS</option>
+              </select>
+            </div>  
+
+              {/* Department */}
+              <div className="form-group">
+              <label htmlFor="employeeDepartment" className="form-label">
+                Department
+              </label>
+              <select
+                id="employeeDepartment"
+                name="department"
+                value={newEmployee.department}
+                onChange={handleEmployeeInputChange}
+                className="form-select"
+                required
+              >
+                <option value="">-- Select Department --</option>
+                <option value="hr">Human Resources</option>
+                <option value="engineering">Engineering</option>
+                <option value="sales">Sales</option>
+                <option value="marketing">Marketing</option>
+                <option value="finance">Finance</option>
+                <option value="operations">Operations</option>
               </select>
             </div>
             
@@ -1287,17 +1310,22 @@ const renderLogs = () => (
                 required
               />
             </div>
-          </div>
-          
-          <div className="form-actions">
-            <button type="submit" className="create-button primary">
-              <UserPlus className="button-icon" />
-              Create Employee
-            </button>
-            <button type="button" onClick={() => setNewEmployee({ name: '', email: '', role: '', password: '' })} className="create-button">
+              
+            <div className="form-actions">
+  <button type="submit" className="create-button">
+    <UserPlus className="button-icon" />
+    Create Employee
+  </button>
+</div>
+
+
+            {/* <button type="button" onClick={() => setNewEmployee({ name: '', email: '', role: '', password: '', password: '' })} className="create-button">
               Clear Form
-            </button>
+            </button> */}
+          {/* </div> */}
           </div>
+      
+
         </form>
       </div>
       
@@ -3265,13 +3293,36 @@ body {
   background-color: var(--card-bg);
 }
 
-/* Form Actions */
 .form-actions {
   display: flex;
-  gap: 15px;
-  margin-top: 25px;
-  flex-wrap: wrap; /* Allow buttons to wrap */
+  justify-content: flex-center;
+  margin-top: 24px;
 }
+
+.create-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #2563eb; /* Tailwind's blue-600 */
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-button:hover {
+  background-color: #1d4ed8; /* Tailwind's blue-700 */
+}
+
+.button-icon {
+  width: 20px;
+  height: 20px;
+}
+
 
 .button {
   padding: 12px 25px;
